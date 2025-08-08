@@ -4,9 +4,10 @@ function generateName() {
 
     if (city && pet) {
         document.getElementById("result").textContent =
-            `Your band name could be: ${city} ${pet}'s!`;
+            `Your band name could be: ${city} ${pet}s!`;
     } else {
         document.getElementById("result").textContent =
             "Please fill in both fields!";
     }
 }
+
