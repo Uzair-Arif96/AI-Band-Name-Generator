@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Band Name Generator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    header {
+      padding: 2rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffdd57;
+      text-shadow: 2px 2px 6px #000;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      0% {opacity: 0; transform: translateY(-20px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      color: #ffe680;
+      animation: fadeIn 2s ease-in 0.5s;
+      animation-fill-mode: both;
+    }
+
+    form {
+      margin-top: 2rem;
+    }
+
+    input {
+      padding: 0.6rem 1rem;
+      margin: 0.6rem;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      width: 250px;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #ffcc33;
+    }
+
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, #ff6600, #ff3300);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background: linear-gradient(45deg, #ff3300, #ff6600);
+      box-shadow: 0 0 15px #ff9900;
+    }
+
+    #result {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #ffcc00;
+      text-shadow: 1px 1px 4px black;
+      animation: popIn 0.5s ease-in-out;
+    }
+
+    @keyframes popIn {
+      0% {transform: scale(0.5); opacity: 0;}
+      100% {transform: scale(1); opacity: 1;}
+    }
+
+    .instrument {
+      position: absolute;
+      width: 80px;
+      opacity: 0.8;
+      animation: float 5s infinite ease-in-out;
+    }
+
+    .guitar { left: 5%; top: 20%; animation-delay: 0s; }
+    .trumpet { right: 5%; bottom: 15%; animation-delay: 2s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 1rem;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px #000;
+      animation: fadeIn 2s ease-in 1s;
+    }
+
+    /* Confetti styles */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    🎸 Can’t come up with a band name? I’ve got you covered with the perfect solution! 🎺
+  </header>
+
+  <h2>Hey there! I am Uzair, welcome to the Band Name Generator!</h2>
+
+  <form id="bandForm">
+    <input type="text" id="city" placeholder="Enter your favorite city" required>
+    <br>
+    <input type="text" id="pet" placeholder="Enter your pet's name" required>
+    <br>
+    <button type="submit">Generate Band Name</button>
+  </form>
+
+  <div id="result"></div>
+
+  <img src="https://cdn-icons-png.flaticon.com/512/3565/3565686.png" class="instrument guitar" alt="guitar">
+  <img src="https://cdn-icons-png.flaticon.com/512/3565/3565760.png" class="instrument trumpet" alt="trumpet">
+
+  <footer>
+    Thank you for using my Band Name Generator! 🎶 Made with ❤️ by Uzair
+  </footer>
+
+  <script>
+    function createConfetti() {
+      const colors = ['#ff0000','#00ff00','#0000ff','#ffff00','#ff00ff','#00ffff','#ff8800'];
+      const count = 80;
+      for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.width = confetti.style.height = 8 + Math.random() * 12 + 'px';
+        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
+        confetti.style.animationTimingFunction = 'ease-out';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    document.getElementById("bandForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let city = document.getElementById("city").value.trim();
+      let pet = document.getElementById("pet").value.trim();
+
+      if (city && pet) {
+        city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+        pet = pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase();
+        document.getElementById("result").innerText = `Your band name could be: The ${city} ${pet}s! 🎸🎺`;
+
+        // Trigger confetti
+        createConfetti();
+      } else {
+        document.getElementById("result").innerText = "Please enter both city and pet name.";
+      }
+    });
+  </script>
+
+</body>
+</html>
