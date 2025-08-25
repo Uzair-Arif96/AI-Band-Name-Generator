@@ -15,6 +15,7 @@
       color: #fff;
       text-align: center;
       overflow-x: hidden;
+      position: relative;
     }
 
     header {
@@ -99,17 +100,8 @@
       animation: float 5s infinite ease-in-out;
     }
 
-    .guitar {
-      left: 5%;
-      top: 20%;
-      animation-delay: 0s;
-    }
-
-    .trumpet {
-      right: 5%;
-      bottom: 15%;
-      animation-delay: 2s;
-    }
+    .guitar { left: 5%; top: 20%; animation-delay: 0s; }
+    .trumpet { right: 5%; bottom: 15%; animation-delay: 2s; }
 
     @keyframes float {
       0% { transform: translateY(0px) rotate(0deg); }
@@ -123,6 +115,23 @@
       color: #ffd700;
       text-shadow: 1px 1px 2px #000;
       animation: fadeIn 2s ease-in 1s;
+    }
+
+    /* Confetti styles */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      0% {transform: translateY(0) rotate(0deg);}
+      100% {transform: translateY(100vh) rotate(360deg);}
     }
   </style>
 </head>
@@ -152,6 +161,20 @@
   </footer>
 
   <script>
+    function createConfetti() {
+      const colors = ['#ff0000','#00ff00','#0000ff','#ffff00','#ff00ff','#00ffff','#ff8800'];
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.width = confetti.style.height = Math.random() * 8 + 5 + 'px';
+        confetti.style.animationDuration = 2 + Math.random() * 2 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+
     document.getElementById("bandForm").addEventListener("submit", function(e) {
       e.preventDefault();
       let city = document.getElementById("city").value.trim();
@@ -160,8 +183,10 @@
       if (city && pet) {
         city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
         pet = pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase();
-
         document.getElementById("result").innerText = `Your band name could be: The ${city} ${pet}s! 🎸🎺`;
+        
+        // Trigger confetti
+        createConfetti();
       } else {
         document.getElementById("result").innerText = "Please enter both city and pet name.";
       }
@@ -170,3 +195,4 @@
 
 </body>
 </html>
+
